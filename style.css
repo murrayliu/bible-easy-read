@@ -114,7 +114,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--accent-light);
   box-shadow: inset 3px 0 0 var(--accent);
 }
-.difficulty-card input[type="radio"] { display: none; }
 .difficulty-dot {
   width: 14px; height: 14px; border-radius: 50%;
   border: 2px solid var(--border-strong);

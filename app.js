@@ -208,28 +208,33 @@ function updateCountBadge() {
 function renderDifficultyOptions() {
   const container = document.getElementById('difficulty-options');
   container.innerHTML = Object.entries(DIFFICULTIES).map(([key, val]) => `
-    <label class="difficulty-card${state.difficulty === key ? ' active' : ''}" data-diff="${key}">
-      <input type="radio" name="difficulty" value="${key}" ${state.difficulty === key ? 'checked' : ''}>
+    <div class="difficulty-card${state.difficulty === key ? ' active' : ''}" data-diff="${key}" role="button" tabindex="0" aria-pressed="${state.difficulty === key}">
       <span class="difficulty-dot"></span>
       <span class="difficulty-info">
         <span class="difficulty-label">${val.label}</span>
         <span class="difficulty-desc">${val.desc}</span>
       </span>
-    </label>
+    </div>
   `).join('');
 
   container.querySelectorAll('.difficulty-card').forEach(card => {
-    card.addEventListener('click', () => {
+    const toggle = () => {
       const key = card.dataset.diff;
-      container.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('active'));
+      container.querySelectorAll('.difficulty-card').forEach(c => {
+        c.classList.remove('active');
+        c.setAttribute('aria-pressed', 'false');
+      });
       if (state.difficulty === key) {
         state.difficulty = null;
       } else {
         state.difficulty = key;
         card.classList.add('active');
+        card.setAttribute('aria-pressed', 'true');
       }
       updateCountBadge();
-    });
+    };
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   });
 }
 
