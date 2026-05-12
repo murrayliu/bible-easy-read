@@ -208,7 +208,7 @@ function updateCountBadge() {
 function renderDifficultyOptions() {
   const container = document.getElementById('difficulty-options');
   container.innerHTML = Object.entries(DIFFICULTIES).map(([key, val]) => `
-    <div class="difficulty-card${state.difficulty === key ? ' active' : ''}" data-diff="${key}" role="button" tabindex="0" aria-pressed="${state.difficulty === key}">
+    <div class="difficulty-card" data-diff="${key}" role="button" tabindex="0">
       <span class="difficulty-dot"></span>
       <span class="difficulty-info">
         <span class="difficulty-label">${val.label}</span>
@@ -217,25 +217,23 @@ function renderDifficultyOptions() {
     </div>
   `).join('');
 
-  container.querySelectorAll('.difficulty-card').forEach(card => {
-    const toggle = () => {
-      const key = card.dataset.diff;
-      container.querySelectorAll('.difficulty-card').forEach(c => {
-        c.classList.remove('active');
-        c.setAttribute('aria-pressed', 'false');
-      });
-      if (state.difficulty === key) {
-        state.difficulty = null;
-      } else {
-        state.difficulty = key;
-        card.classList.add('active');
-        card.setAttribute('aria-pressed', 'true');
-      }
-      updateCountBadge();
-    };
-    card.addEventListener('click', toggle);
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
-  });
+  // Event delegation on container — single listener, always works
+  container.onclick = (e) => {
+    const card = e.target.closest('.difficulty-card');
+    if (!card) return;
+    const key = card.dataset.diff;
+    const isActive = state.difficulty === key;
+    state.difficulty = isActive ? null : key;
+    container.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('active'));
+    if (!isActive) card.classList.add('active');
+    updateCountBadge();
+  };
+  container.onkeydown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      e.target.closest('.difficulty-card')?.click();
+    }
+  };
 }
 
 function renderThemeGrid() {
