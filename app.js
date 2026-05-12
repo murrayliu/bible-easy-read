@@ -236,32 +236,46 @@ function renderDifficultyOptions() {
   };
 }
 
+const THEME_GROUPS = [
+  { label: '心靈狀態', keys: ['anxiety','depression','grief','anger','strength'] },
+  { label: '關係',    keys: ['love','marriage','romance','friendship','family','colleague','social'] },
+  { label: '人生處境', keys: ['failure','decision','newstart','study','finance','health'] },
+  { label: '品格成長', keys: ['wisdom','growth','forgiveness','gratitude'] },
+  { label: '信仰',    keys: ['faith','salvation','spiritual','prayer','worship','mission'] },
+];
+
 function renderThemeGrid() {
   const grid = document.getElementById('theme-grid');
-  grid.innerHTML = Object.entries(THEMES).map(([key, val]) => `
-    <button class="theme-btn${state.themes.includes(key) ? ' active' : ''}"
-            data-theme="${key}" type="button" aria-pressed="${state.themes.includes(key)}">
-      <span class="theme-icon">${val.icon}</span>
-      <span>${val.label}</span>
-    </button>
+  grid.innerHTML = THEME_GROUPS.map(group => `
+    <div class="theme-group-label">${group.label}</div>
+    ${group.keys.map(key => {
+      const val = THEMES[key];
+      return `
+        <button class="theme-btn${state.themes.includes(key) ? ' active' : ''}"
+                data-theme="${key}" type="button" aria-pressed="${state.themes.includes(key)}">
+          <span class="theme-icon">${val.icon}</span>
+          <span>${val.label}</span>
+        </button>`;
+    }).join('')}
   `).join('');
 
-  grid.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.theme;
-      const idx = state.themes.indexOf(key);
-      if (idx >= 0) {
-        state.themes.splice(idx, 1);
-        btn.classList.remove('active');
-        btn.setAttribute('aria-pressed', 'false');
-      } else {
-        state.themes.push(key);
-        btn.classList.add('active');
-        btn.setAttribute('aria-pressed', 'true');
-      }
-      updateCountBadge();
-    });
-  });
+  // Event delegation
+  grid.onclick = (e) => {
+    const btn = e.target.closest('.theme-btn');
+    if (!btn) return;
+    const key = btn.dataset.theme;
+    const idx = state.themes.indexOf(key);
+    if (idx >= 0) {
+      state.themes.splice(idx, 1);
+      btn.classList.remove('active');
+      btn.setAttribute('aria-pressed', 'false');
+    } else {
+      state.themes.push(key);
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+    }
+    updateCountBadge();
+  };
 }
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
