@@ -214,9 +214,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* Verse text */
 .verse-text-wrap { position: relative; margin: 0 0 28px; }
 .quote-mark {
-  font-size: 5rem; line-height: .5; color: var(--accent-light);
+  font-size: 2.8rem; line-height: 1; color: var(--accent-light);
   font-family: Georgia, serif;
-  position: absolute; top: 8px; left: -6px;
+  display: block; margin-bottom: -0.5em;
   pointer-events: none; user-select: none;
 }
 .verse-text {
@@ -224,7 +224,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 2;
   color: var(--text);
   font-weight: 500;
-  padding-left: 22px;
+  padding-left: 0;
 }
 .verse-loading {
   color: var(--text-muted); font-size: .93rem;
@@ -367,7 +367,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .theme-grid { grid-template-columns: repeat(3, 1fr); }
   .featured-card { padding: 24px 20px 20px; }
   .verse-text { font-size: 1rem; }
-  .quote-mark { font-size: 3.5rem; left: -2px; }
+  .quote-mark { font-size: 2.8rem; }
   .filter-panel { padding: 20px; }
   .filter-actions { flex-direction: column; align-items: stretch; }
   .filter-actions .btn { justify-content: center; }
