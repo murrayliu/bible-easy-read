@@ -2,8 +2,23 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>聖經金句輕鬆讀</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2C1810">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="聖經金句">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-120.png">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -49,7 +64,7 @@
 
   <aside class="info-drawer" id="info-drawer" role="dialog" aria-modal="true" aria-label="背景資訊" aria-hidden="true">
     <div class="drawer-header">
-      <h2 class="drawer-title">📖 背景資訊</h2>
+      <h2 class="drawer-title">📖 經文資訊</h2>
       <button class="drawer-close" id="drawer-close-btn" aria-label="關閉" type="button">✕</button>
     </div>
     <div class="drawer-body" id="drawer-body"></div>
@@ -58,12 +73,17 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>聖經版本：和合本（簡體）· 資料來源：bible-api.com · 僅供個人靈修使用</p>
+      <p>聖經版本：和合本 · 僅供個人靈修使用</p>
     </div>
   </footer>
 
   <script src="data.js"></script>
   <script src="bible.js"></script>
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
 </body>
 </html>
