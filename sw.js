@@ -1,4 +1,4 @@
-const CACHE = 'bible-v1';
+const CACHE = 'bible-v2';
 const BASE  = '/bible-easy-read';
 const ASSETS = [
   BASE + '/',
@@ -6,6 +6,7 @@ const ASSETS = [
   BASE + '/style.css',
   BASE + '/data.js',
   BASE + '/bible.js',
+  BASE + '/commentary.js',
   BASE + '/app.js',
   BASE + '/manifest.json',
   BASE + '/icons/icon-192.png',
