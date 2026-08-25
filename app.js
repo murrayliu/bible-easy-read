@@ -155,6 +155,7 @@ function renderDrawer(verse) {
   const themeList = verse.themes.map(t => `<span class="badge badge-theme">${THEMES[t]?.icon ?? ''} ${THEMES[t]?.label ?? t}</span>`).join(' ');
   const diffLabel = DIFFICULTIES[verse.difficulty]?.label ?? verse.difficulty;
   const diffDesc  = DIFFICULTIES[verse.difficulty]?.desc ?? '';
+  const commentary = (typeof COMMENTARY !== 'undefined') ? COMMENTARY[verse.id] : null;
 
   document.getElementById('drawer-body').innerHTML = `
     <div class="drawer-verse-ref">✦ ${verse.ref}</div>
@@ -174,6 +175,24 @@ function renderDrawer(verse) {
       <div class="bg-label">📖 全文</div>
       <div class="bg-content" style="font-size:1rem;line-height:2;border-left:3px solid var(--accent-mid);padding-left:12px;margin-top:4px">${verse.text}</div>
     </div>
+    ${commentary ? `
+    <div class="bg-section">
+      <div class="bg-label">🏛️ 背景故事</div>
+      <div class="bg-content">${commentary.background}</div>
+    </div>
+    <div class="bg-section">
+      <div class="bg-label">💡 核心啟示</div>
+      <div class="bg-content">${commentary.insight}</div>
+    </div>
+    <div class="bg-section">
+      <div class="bg-label">🌱 今日應用</div>
+      <div class="bg-content">${commentary.application}</div>
+    </div>
+    ` : `
+    <div class="bg-section">
+      <div class="bg-content" style="color:var(--text-muted);font-size:.9em">背景故事、核心啟示與今日應用尚在準備中，敬請期待。</div>
+    </div>
+    `}
   `;
 }
 
